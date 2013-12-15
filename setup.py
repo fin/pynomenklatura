@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='pynomenklatura',
-    version='0.3.1',
+    version='2.0',
     description="Client library for nomenklatura, make record linkages on the web.",
     long_description="",
     classifiers=[
@@ -11,8 +11,8 @@ setup(
     keywords='data mapping identity linkage record',
     author='Open Knowledge Foundation',
     author_email='info@okfn.org',
-    url='http://github.com/okfn/nomenklatura-client',
-    license='AGPLv3',
+    url='http://github.com/pudo/pynomenklatura',
+    license='MIT',
     py_modules=['nomenklatura'],
     zip_safe=False,
     install_requires=[
