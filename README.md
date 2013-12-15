@@ -28,13 +28,13 @@ If you want to develop the client library's code, check out the [repository](htt
 
 Several aspects of ``pynomenklatura`` can be configured, including the host name of the nomenklatura server and the API key that is to be used for authentication. To determine these settings, the library will evaluate the following configuration sources in the listed order:
 
-1. Read the ``~/.pynomenklatura.ini`` file in the user's home directory. The file is a simple .ini configuration as detailed below.
+1. Read the ``~/.nomenklatura.ini`` file in the user's home directory. The file is a simple .ini configuration as detailed below.
 2. Check the contents of the following environment variables: ``NOMENKLATURA_HOST``, ``NOMENKLATURA_APIKEY``.
 3. Evaluate the keyword arguments passed into the constructor of ``nomenklatura.Dataset``.
 
 A simple configuration file for ``pynomenklatura`` might look like this:
 
-	[nomenklatura]
+	[client]
 	host = http://opennames.org
 	api_key = xxxxx-xxxxx-xxxxx (see user profile in nomenklatura)
 
