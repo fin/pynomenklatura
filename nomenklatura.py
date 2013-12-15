@@ -8,14 +8,20 @@ import requests
 class _NomenklaturaObject(object):
     """ The basic object we'll be inheriting from """
 
+    WRITE_ATTRS = []
+
     def __init__(self, data):
         self.__data__ = data
 
     def __getattr__(self, k):
         return self.__data__[k]
 
-    #def __setattr__(self, k, v):
-    #    pass
+    def __setattr__(self, k, v):
+        if k in self.WRITE_ATTRS:
+            self.__data__[k] = v
+        else:
+            super(_NomenklaturaObject, self).__setattr__(k, v)
+
 
 
 class NomenklaturaException(Exception):
@@ -30,7 +36,7 @@ class NomenklaturaException(Exception):
         return unicode(self).encode('ascii', 'replace')
 
     def __repr__(self):
-        return 'NomenklaturaException("%s")' % self.message
+        return '<NomenklaturaException("%s")>' % self.message
 
 
 class NomenklaturaServerException(NomenklaturaException):
@@ -112,18 +118,38 @@ class _Client(object):
 class Entity(_NomenklaturaObject):
     """ Entities are the central domain object of nomenklatura. """
 
+    WRITE_ATTRS = ['name', 'invalid', 'reviewed', 'canonical', 'attributes']
+
     def __init__(self, client, data):
         self._client = client
         super(Entity, self).__init__(data)
 
     def __repr__(self):
-        return "<Entity(%s:%s:%s)>" % (self.dataset, self.id, str(self))
+        return "<Entity(%s:%s:%s:%s)>" % (self.dataset, self.id, str(self), self.canonical)
 
     def __str__(self):
         return self.name.encode('ascii', 'replace')
 
     def __unicode__(self):
         return self.name
+
+    def update(self):
+        self._client.post('/entities/%s' % self.id, data=self.__data__)
+
+    def dereference(self):
+        if self.canonical is not None:
+            return self.canonical.dereference()
+        return self
+
+    @property
+    def is_alias(self):
+        return self.canonical is not None
+
+    @property
+    def canonical(self):
+        cv = self.__data__.get('canonical')
+        if cv is not None:
+            return Entity(self._client, cv)
 
     @property
     def aliases(self):

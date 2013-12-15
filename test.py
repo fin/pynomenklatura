@@ -4,6 +4,13 @@ dataset = Dataset('iso-countries')
 print [dataset.label]
 
 #print list(dataset.entities())
-#print repr(dataset.entity_by_name('cyprus'))
 
-print repr(dataset.create_entity('Taka-tuka-land'))
+#cyp = dataset.entity_by_name('cyprus') 
+#print cyp.__data__
+#cyp.reviewed = False
+#print cyp.__data__
+#cyp.update()
+
+e = dataset.entity_by_name('christmas island') 
+print repr(e)
+print repr(e.dereference())
