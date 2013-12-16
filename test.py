@@ -11,6 +11,6 @@ print [dataset.label]
 #print cyp.__data__
 #cyp.update()
 
-e = dataset.entity_by_name('christmas island') 
+e = dataset.entity_by_name('christma island') 
 print repr(e)
 print repr(e.dereference())

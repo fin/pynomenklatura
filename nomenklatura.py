@@ -46,9 +46,11 @@ class NomenklaturaServerException(NomenklaturaException):
         self.name = response.get('name')
         self.message = response.get('message', response.get('description'))
         self.description = response.get('description')
+        self.data = response
 
 
 class InvalidRequest(NomenklaturaServerException): pass
+class NoMatch(NomenklaturaServerException): pass
 
 
 class _Client(object):
@@ -185,9 +187,14 @@ class Dataset(_NomenklaturaObject):
             _, res = self._client.get(res.get('next'))
 
     def entity_by_name(self, name):
-        _, res = self._client.get('/datasets/%s/find' % self.name,
-            params={'name': name})
-        return Entity(self._client, res)
+        try:
+            _, res = self._client.get('/datasets/%s/find' % self.name,
+                params={'name': name})
+            return Entity(self._client, res)
+        except NomenklaturaServerException, nse:
+            if nse.status == 404:
+                raise NoMatch(nse.data)
+            raise
 
     def entity_by_id(self, id):
         _, res = self._client.get('/entities/%s' % id)
