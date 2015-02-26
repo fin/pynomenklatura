@@ -9,14 +9,14 @@ The Python client library can be used to find, match and create entities in nome
     import nomenklatura
     
     dataset = nomenklatura.Dataset("german-politicians")
-    entity = dataset.match("Angela Merkel")
+    entity = dataset.entity_by_name("Angela Merkel")
     print entity
 
 ### Installation
 
 The easiest way to install the client is via the Python package index and pip/easy_install:
 
-    pip install pynomenklatura
+    pip install -e git+https://github.com/pudo/pynomenklatura.git#egg=pynomenklatura
 
 If you want to develop the client library's code, check out the [repository](http://github.com/pudo/pynomenklatura) and set up dependencies etc. with the command:
 
